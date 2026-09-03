@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: pixora-email-service
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MASTER_ADMIN_KEY
+        sync: false
+      - key: FROM_EMAIL
+        value: hello@pixorastudios.com
+      - key: FROM_NAME
+        value: Pixora Studios
+      - key: BREVO_API_KEY
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: HOSTINGER_SMTP_HOST
+        value: smtp.hostinger.com
+      - key: HOSTINGER_SMTP_PORT
+        value: "465"
+      - key: HOSTINGER_SMTP_SECURE
+        value: "true"
+      - key: HOSTINGER_SMTP_USER
+        value: hello@pixorastudios.com
+      - key: HOSTINGER_SMTP_PASS
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: "*"
