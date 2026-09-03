@@ -9,6 +9,7 @@ import {
   ShieldCheck,
   AlertCircle,
   Activity,
+  X,
 } from 'lucide-react';
 import { StoredApiKey } from '../types';
 import { api } from '../services/api';
@@ -95,11 +96,11 @@ export const ApiKeys: React.FC<ApiKeysProps> = ({ keys, onRefresh }) => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-2.5">
-            <KeyRound className="w-6 h-6 text-cyan-400" />
+          <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2.5">
+            <KeyRound className="w-6 h-6 text-indigo-600" />
             <span>Client API Keys & Access Control</span>
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-slate-500 mt-1">
             Generate and manage scoped API credentials for client websites (Dental Clinic, Café, Portfolio, etc.). Only authorized callers with these keys can dispatch emails.
           </p>
         </div>
@@ -109,64 +110,64 @@ export const ApiKeys: React.FC<ApiKeysProps> = ({ keys, onRefresh }) => {
         </button>
       </div>
 
-      {/* Keys Table / Cards */}
+      {/* Keys Table */}
       <div className="glass-panel overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-slate-800 bg-slate-950/60 text-slate-400 uppercase font-semibold text-[11px] tracking-wider">
-                <th className="py-3 px-4">Key Name & Prefix</th>
-                <th className="py-3 px-4">Status</th>
-                <th className="py-3 px-4">Dispatches</th>
-                <th className="py-3 px-4">Last Used</th>
-                <th className="py-3 px-4">Created Date</th>
-                <th className="py-3 px-4 text-right">Actions</th>
+              <tr className="border-b border-slate-200 bg-slate-50 text-slate-500 uppercase font-bold text-[10.5px] tracking-wider">
+                <th className="py-3.5 px-5">Key Name & Prefix</th>
+                <th className="py-3.5 px-4">Status</th>
+                <th className="py-3.5 px-4">Dispatches</th>
+                <th className="py-3.5 px-4">Last Used</th>
+                <th className="py-3.5 px-4">Created Date</th>
+                <th className="py-3.5 px-5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-slate-100">
               {keys.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-8 text-center text-slate-500">
+                  <td colSpan={6} className="py-12 text-center text-slate-400">
                     No client API keys created yet. Generate one to allow external services to send emails.
                   </td>
                 </tr>
               ) : (
                 keys.map((k) => (
-                  <tr key={k.id} className="hover:bg-slate-900/40 transition-colors">
-                    <td className="py-3.5 px-4">
-                      <div className="font-bold text-white text-sm">{k.name}</div>
+                  <tr key={k.id} className="hover:bg-slate-50/80 transition-colors">
+                    <td className="py-4 px-5">
+                      <div className="font-bold text-slate-900 text-sm">{k.name}</div>
                       <div className="flex items-center gap-2 mt-0.5">
-                        <code className="text-cyan-400 font-mono text-[11px] bg-slate-950 px-1.5 py-0.5 rounded border border-slate-800">
+                        <code className="text-indigo-600 font-mono text-[11px] bg-indigo-50 px-1.5 py-0.5 rounded-md font-semibold border border-indigo-100">
                           {k.keyPrefix}...
                         </code>
                         {k.description && (
-                          <span className="text-slate-500 text-[11px] truncate max-w-xs">{k.description}</span>
+                          <span className="text-slate-400 text-xs truncate max-w-xs">{k.description}</span>
                         )}
                       </div>
                     </td>
-                    <td className="py-3.5 px-4">
+                    <td className="py-4 px-4">
                       <span className={`badge-status ${k.isActive ? 'badge-active' : 'badge-failed'}`}>
                         {k.isActive ? 'Active' : 'Revoked'}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 font-mono font-semibold text-slate-300">
+                    <td className="py-4 px-4 font-mono font-bold text-slate-700">
                       <div className="flex items-center gap-1.5">
-                        <Activity className="w-3.5 h-3.5 text-cyan-400" />
+                        <Activity className="w-3.5 h-3.5 text-indigo-600" />
                         <span>{k.usageCount || 0}</span>
                       </div>
                     </td>
-                    <td className="py-3.5 px-4 text-slate-400 font-mono text-[11px]">
+                    <td className="py-4 px-4 text-slate-500 font-mono text-[11.5px]">
                       {k.lastUsedAt ? new Date(k.lastUsedAt).toLocaleString() : 'Never'}
                     </td>
-                    <td className="py-3.5 px-4 text-slate-400 font-mono text-[11px]">
+                    <td className="py-4 px-4 text-slate-500 font-mono text-[11.5px]">
                       {new Date(k.createdAt).toLocaleDateString()}
                     </td>
-                    <td className="py-3.5 px-4 text-right">
+                    <td className="py-4 px-5 text-right">
                       <div className="flex items-center justify-end gap-2">
                         {k.isActive && (
                           <button
                             onClick={() => handleRevoke(k.id)}
-                            className="p-1.5 text-amber-400 hover:text-amber-300 bg-amber-950/40 hover:bg-amber-900/60 rounded-lg border border-amber-900/40 transition-colors"
+                            className="p-1.5 text-amber-700 hover:text-amber-800 bg-amber-50 hover:bg-amber-100 rounded-lg border border-amber-200 transition-colors"
                             title="Deactivate Key"
                           >
                             <Ban className="w-3.5 h-3.5" />
@@ -174,7 +175,7 @@ export const ApiKeys: React.FC<ApiKeysProps> = ({ keys, onRefresh }) => {
                         )}
                         <button
                           onClick={() => handleDelete(k.id)}
-                          className="p-1.5 text-rose-400 hover:text-rose-300 bg-rose-950/40 hover:bg-rose-900/60 rounded-lg border border-rose-900/40 transition-colors"
+                          className="p-1.5 text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100 rounded-lg border border-rose-200 transition-colors"
                           title="Delete Key"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -191,20 +192,20 @@ export const ApiKeys: React.FC<ApiKeysProps> = ({ keys, onRefresh }) => {
 
       {/* Newly Created Key Dialog */}
       {newlyCreatedKey && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
-          <div className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-fadeIn">
+          <div className="w-full max-w-lg bg-white border border-slate-200 rounded-2xl p-6 shadow-2xl space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-950 border border-emerald-800/60 flex items-center justify-center text-emerald-400">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-white">API Key Generated Successfully!</h3>
-                <p className="text-xs text-slate-400">Please copy and store this key now. It will not be shown again.</p>
+                <h3 className="text-base font-bold text-slate-900">API Key Generated Successfully!</h3>
+                <p className="text-xs text-slate-500">Please copy and store this key now. It will not be shown again.</p>
               </div>
             </div>
 
-            <div className="p-3.5 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-between gap-3">
-              <code className="text-xs font-mono text-cyan-400 break-all select-all font-semibold">
+            <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between gap-3">
+              <code className="text-xs font-mono text-indigo-700 break-all select-all font-bold">
                 {newlyCreatedKey}
               </code>
               <button
@@ -226,8 +227,8 @@ export const ApiKeys: React.FC<ApiKeysProps> = ({ keys, onRefresh }) => {
               </button>
             </div>
 
-            <div className="p-3 bg-amber-950/40 border border-amber-800/60 text-amber-300 text-[11px] rounded-lg">
-              ⚠️ Give this key to the specific client app or developer. They should pass it in header: <code className="text-white font-mono bg-slate-950 px-1 py-0.5 rounded">x-api-key: {newlyCreatedKey.substring(0, 15)}...</code>
+            <div className="p-3 bg-amber-50 border border-amber-200 text-amber-800 text-xs rounded-lg">
+              ⚠️ Give this key to the specific client app or developer. They should pass it in header: <code className="text-slate-900 font-mono bg-white px-1 py-0.5 rounded border border-amber-200">x-api-key: {newlyCreatedKey.substring(0, 15)}...</code>
             </div>
 
             <div className="flex justify-end pt-2">
@@ -245,31 +246,31 @@ export const ApiKeys: React.FC<ApiKeysProps> = ({ keys, onRefresh }) => {
 
       {/* Create Key Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn">
-          <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <KeyRound className="w-4 h-4 text-cyan-400" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-fadeIn">
+          <div className="w-full max-w-md bg-white border border-slate-200 rounded-2xl p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
+              <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <KeyRound className="w-4 h-4 text-indigo-600" />
                 <span>Create New API Key</span>
               </h3>
               <button
                 onClick={() => setShowCreateModal(false)}
-                className="text-slate-400 hover:text-white text-lg font-bold"
+                className="text-slate-400 hover:text-slate-600"
               >
-                &times;
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             <form onSubmit={handleCreate} className="space-y-4">
               {error && (
-                <div className="p-3 bg-rose-950/50 border border-rose-800 text-rose-300 text-xs rounded-lg flex items-center gap-2">
+                <div className="p-3 bg-rose-50 border border-rose-200 text-rose-800 text-xs rounded-lg flex items-center gap-2">
                   <AlertCircle className="w-4 h-4 shrink-0" />
                   <span>{error}</span>
                 </div>
               )}
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Key Name / Client Name</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Key Name / Client Name</label>
                 <input
                   type="text"
                   value={name}
@@ -281,7 +282,7 @@ export const ApiKeys: React.FC<ApiKeysProps> = ({ keys, onRefresh }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Description (Optional)</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Description (Optional)</label>
                 <input
                   type="text"
                   value={description}
@@ -292,7 +293,7 @@ export const ApiKeys: React.FC<ApiKeysProps> = ({ keys, onRefresh }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                <label className="block text-xs font-bold text-slate-700 mb-1">
                   Allowed Origins (Optional, Comma-separated)
                 </label>
                 <input
@@ -302,10 +303,10 @@ export const ApiKeys: React.FC<ApiKeysProps> = ({ keys, onRefresh }) => {
                   placeholder="https://clinic1.com, https://app.pixorastudios.com"
                   className="input-field"
                 />
-                <p className="text-[10px] text-slate-500 mt-1">Leave empty to allow universal server-to-server calls.</p>
+                <p className="text-[10px] text-slate-400 mt-1">Leave empty to allow universal server-to-server calls.</p>
               </div>
 
-              <div className="flex justify-end gap-2 pt-2 border-t border-slate-800">
+              <div className="flex justify-end gap-2 pt-2 border-t border-slate-200">
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}

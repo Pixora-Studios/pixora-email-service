@@ -66,7 +66,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#090d16] flex flex-col selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div className="min-h-screen bg-slate-50 flex flex-col selection:bg-indigo-500/20 selection:text-indigo-800">
       <Navbar onRefresh={loadData} isRefreshing={isRefreshing} />
 
       <div className="flex-1 flex">
@@ -75,8 +75,8 @@ export const App: React.FC = () => {
         <main className="flex-1 p-6 sm:p-8 overflow-y-auto max-w-7xl">
           {initialLoading ? (
             <div className="min-h-[50vh] flex flex-col items-center justify-center gap-3">
-              <div className="w-8 h-8 border-2 border-cyan-500/30 border-t-cyan-400 rounded-full animate-spin"></div>
-              <p className="text-xs text-slate-400 font-mono">Connecting to Pixora Email Engine...</p>
+              <div className="w-8 h-8 border-2 border-indigo-600/30 border-t-indigo-600 rounded-full animate-spin"></div>
+              <p className="text-xs text-slate-500 font-mono">Connecting to Pixora Email Engine...</p>
             </div>
           ) : (
             <>

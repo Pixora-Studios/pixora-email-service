@@ -109,7 +109,7 @@ export const Sandbox: React.FC<SandboxProps> = ({ templates, initialSlug, onEmai
     }
 
     setTemplateDataJson(JSON.stringify(sampleData, null, 2));
-  }, [selectedSlug, templates]);
+  }, [selectedSlug, templates, recipient]);
 
   // Update preview whenever template or data changes
   useEffect(() => {
@@ -117,12 +117,12 @@ export const Sandbox: React.FC<SandboxProps> = ({ templates, initialSlug, onEmai
     try {
       parsedData = JSON.parse(templateDataJson);
     } catch {
-      // ignore invalid json during typing
+      // ignore
     }
 
     if (selectedSlug === 'custom') {
       setPreviewSubject(subjectOverride || 'Custom Email Preview');
-      setPreviewHtml(customHtml || '<p style="color: #94a3b8;">Enter custom HTML to preview...</p>');
+      setPreviewHtml(customHtml || '<p style="color: #64748b;">Enter custom HTML to preview...</p>');
       return;
     }
 
@@ -207,23 +207,23 @@ export const Sandbox: React.FC<SandboxProps> = ({ templates, initialSlug, onEmai
     <div className="space-y-6 animate-fadeIn">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white flex items-center gap-2.5">
-          <Sparkles className="w-6 h-6 text-cyan-400" />
+        <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2.5">
+          <Sparkles className="w-6 h-6 text-indigo-600" />
           <span>Interactive Dispatch Sandbox</span>
         </h1>
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="text-xs text-slate-500 mt-1">
           Compose, live preview, and dispatch test emails using universal templates and automatic fallback.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Composer Form (5 cols) */}
+        {/* Left Composer Form (6 cols) */}
         <div className="lg:col-span-6 space-y-4">
-          <div className="glass-panel p-5 space-y-4">
+          <div className="glass-panel p-6 space-y-4">
             {/* Recipient */}
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
-                Recipient Email (<span className="text-cyan-400">to</span>)
+              <label className="block text-xs font-bold text-slate-700 mb-1">
+                Recipient Email (<span className="text-indigo-600 font-mono">to</span>)
               </label>
               <input
                 type="email"
@@ -236,13 +236,13 @@ export const Sandbox: React.FC<SandboxProps> = ({ templates, initialSlug, onEmai
 
             {/* Template Selector */}
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-bold text-slate-700 mb-1">
                 Select Template
               </label>
               <select
                 value={selectedSlug}
                 onChange={(e) => setSelectedSlug(e.target.value)}
-                className="input-field"
+                className="input-field cursor-pointer font-medium"
               >
                 {templates.map((t) => (
                   <option key={t.slug} value={t.slug}>
@@ -255,7 +255,7 @@ export const Sandbox: React.FC<SandboxProps> = ({ templates, initialSlug, onEmai
 
             {/* Subject Override */}
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-bold text-slate-700 mb-1">
                 Subject (Optional Override)
               </label>
               <input
@@ -270,14 +270,14 @@ export const Sandbox: React.FC<SandboxProps> = ({ templates, initialSlug, onEmai
             {/* Dynamic Content Tabs */}
             {selectedSlug !== 'custom' ? (
               <div>
-                <div className="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
-                  <span className="text-xs font-semibold text-slate-300">Template Variables</span>
-                  <div className="flex items-center gap-1 bg-slate-900 p-0.5 rounded-lg border border-slate-800 text-[11px]">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-2 mb-3">
+                  <span className="text-xs font-bold text-slate-700">Template Variables</span>
+                  <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg text-xs">
                     <button
                       type="button"
                       onClick={() => setActiveTab('form')}
                       className={`px-2.5 py-1 rounded-md transition-colors ${
-                        activeTab === 'form' ? 'bg-cyan-500/20 text-cyan-400 font-semibold' : 'text-slate-400'
+                        activeTab === 'form' ? 'bg-white text-indigo-700 font-bold shadow-xs' : 'text-slate-600'
                       }`}
                     >
                       Form View
@@ -286,7 +286,7 @@ export const Sandbox: React.FC<SandboxProps> = ({ templates, initialSlug, onEmai
                       type="button"
                       onClick={() => setActiveTab('json')}
                       className={`px-2.5 py-1 rounded-md transition-colors ${
-                        activeTab === 'json' ? 'bg-cyan-500/20 text-cyan-400 font-semibold' : 'text-slate-400'
+                        activeTab === 'json' ? 'bg-white text-indigo-700 font-bold shadow-xs' : 'text-slate-600'
                       }`}
                     >
                       JSON Editor
@@ -298,7 +298,7 @@ export const Sandbox: React.FC<SandboxProps> = ({ templates, initialSlug, onEmai
                   <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
                     {currentTemplate.variables.map((varKey) => (
                       <div key={varKey}>
-                        <label className="block text-[11px] font-mono text-cyan-400 mb-1">
+                        <label className="block text-[11px] font-mono text-indigo-600 font-semibold mb-1">
                           {`{{${varKey}}}`}
                         </label>
                         <input
@@ -327,7 +327,7 @@ export const Sandbox: React.FC<SandboxProps> = ({ templates, initialSlug, onEmai
               </div>
             ) : (
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Custom HTML Body</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Custom HTML Body</label>
                 <textarea
                   value={customHtml}
                   onChange={(e) => setCustomHtml(e.target.value)}
@@ -363,37 +363,37 @@ export const Sandbox: React.FC<SandboxProps> = ({ templates, initialSlug, onEmai
 
           {/* Diagnostic Result Banner */}
           {sendResult && (
-            <div className="p-4 rounded-xl bg-slate-900 border border-emerald-500/40 shadow-lg animate-fadeIn">
-              <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
-                <CheckCircle2 className="w-4 h-4" />
+            <div className="p-5 rounded-2xl bg-emerald-50 border border-emerald-200 shadow-xs animate-fadeIn">
+              <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                 <span>Email Dispatched Successfully!</span>
               </div>
-              <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-                <div className="p-2 bg-slate-950/80 rounded-lg border border-slate-800">
-                  <span className="text-slate-500 block text-[10px] uppercase">Provider Used</span>
-                  <span className="text-cyan-400 font-mono font-semibold">{sendResult.providerUsed}</span>
+              <div className="mt-3 grid grid-cols-2 gap-3 text-xs">
+                <div className="p-3 bg-white rounded-xl border border-emerald-100 shadow-xs">
+                  <span className="text-slate-400 block text-[10px] uppercase font-bold">Provider Used</span>
+                  <span className="text-indigo-600 font-mono font-bold text-sm">{sendResult.providerUsed}</span>
                 </div>
-                <div className="p-2 bg-slate-950/80 rounded-lg border border-slate-800">
-                  <span className="text-slate-500 block text-[10px] uppercase">Latency</span>
-                  <span className="text-slate-200 font-mono flex items-center gap-1">
-                    <Clock className="w-3 h-3 text-slate-400" />
+                <div className="p-3 bg-white rounded-xl border border-emerald-100 shadow-xs">
+                  <span className="text-slate-400 block text-[10px] uppercase font-bold">Latency</span>
+                  <span className="text-slate-800 font-mono font-bold flex items-center gap-1 text-sm">
+                    <Clock className="w-3.5 h-3.5 text-slate-400" />
                     {sendResult.durationMs}ms
                   </span>
                 </div>
               </div>
               {sendResult.fallbackTriggered && (
-                <div className="mt-2 text-[11px] text-amber-300 bg-amber-950/40 p-2 rounded-lg border border-amber-800/40">
-                  ⚠️ Primary tier was unavailable. Auto-recovered by cascading through fallback chain: {sendResult.attemptedProviders?.join(' → ')}.
+                <div className="mt-2 text-xs text-amber-800 bg-amber-50 p-2.5 rounded-lg border border-amber-200">
+                  ⚠️ Primary tier was unavailable. Auto-recovered through fallback route: {sendResult.attemptedProviders?.join(' → ')}.
                 </div>
               )}
             </div>
           )}
 
           {sendError && (
-            <div className="p-4 rounded-xl bg-rose-950/40 border border-rose-800 text-rose-300 text-xs flex items-start gap-3">
-              <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+            <div className="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-start gap-3">
+              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
               <div>
-                <strong className="block font-semibold">Delivery Failed</strong>
+                <strong className="block font-bold">Delivery Failed</strong>
                 <span>{sendError}</span>
               </div>
             </div>
@@ -402,18 +402,18 @@ export const Sandbox: React.FC<SandboxProps> = ({ templates, initialSlug, onEmai
 
         {/* Right Live Preview (6 cols) */}
         <div className="lg:col-span-6 space-y-3">
-          <div className="glass-panel p-4 flex flex-col h-full">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div className="glass-panel p-5 flex flex-col h-full">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
               <div className="flex items-center gap-2">
-                <Eye className="w-4 h-4 text-cyan-400" />
-                <span className="text-xs font-bold text-white uppercase tracking-wider">Live Render Preview</span>
+                <Eye className="w-4 h-4 text-indigo-600" />
+                <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">Live Render Preview</span>
               </div>
-              <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800">
+              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg">
                 <button
                   type="button"
                   onClick={() => setPreviewMode('desktop')}
-                  className={`p-1.5 rounded ${
-                    previewMode === 'desktop' ? 'bg-cyan-500/20 text-cyan-400' : 'text-slate-400'
+                  className={`p-1.5 rounded-md transition-colors ${
+                    previewMode === 'desktop' ? 'bg-white text-indigo-600 shadow-xs' : 'text-slate-500'
                   }`}
                   title="Desktop View"
                 >
@@ -422,8 +422,8 @@ export const Sandbox: React.FC<SandboxProps> = ({ templates, initialSlug, onEmai
                 <button
                   type="button"
                   onClick={() => setPreviewMode('mobile')}
-                  className={`p-1.5 rounded ${
-                    previewMode === 'mobile' ? 'bg-cyan-500/20 text-cyan-400' : 'text-slate-400'
+                  className={`p-1.5 rounded-md transition-colors ${
+                    previewMode === 'mobile' ? 'bg-white text-indigo-600 shadow-xs' : 'text-slate-500'
                   }`}
                   title="Mobile View"
                 >
@@ -433,22 +433,22 @@ export const Sandbox: React.FC<SandboxProps> = ({ templates, initialSlug, onEmai
             </div>
 
             {/* Subject preview */}
-            <div className="py-2.5 px-3 bg-slate-950/80 rounded-lg border border-slate-800/80 my-3 text-xs flex items-center gap-2">
-              <span className="text-slate-500 font-semibold shrink-0">Subject:</span>
-              <span className="text-slate-200 font-medium truncate">{previewSubject || '(Empty subject)'}</span>
+            <div className="py-2.5 px-3 bg-slate-50 rounded-xl border border-slate-200 my-3 text-xs flex items-center gap-2">
+              <span className="text-slate-500 font-bold shrink-0">Subject:</span>
+              <span className="text-slate-800 font-semibold truncate">{previewSubject || '(Empty subject)'}</span>
             </div>
 
             {/* HTML Preview Iframe Container */}
-            <div className="flex-1 flex justify-center items-start bg-slate-950 rounded-xl border border-slate-800/80 p-3 overflow-hidden min-h-[420px]">
+            <div className="flex-1 flex justify-center items-start bg-slate-100 rounded-xl border border-slate-200 p-3 overflow-hidden min-h-[440px]">
               <div
                 className={`transition-all duration-300 w-full h-full flex flex-col ${
-                  previewMode === 'mobile' ? 'max-w-[360px] border border-slate-700 rounded-2xl overflow-hidden shadow-2xl' : ''
+                  previewMode === 'mobile' ? 'max-w-[360px] border-4 border-slate-800 rounded-3xl overflow-hidden shadow-xl bg-white' : 'bg-white rounded-xl shadow-xs'
                 }`}
               >
                 <iframe
                   title="Email Preview"
                   srcDoc={previewHtml}
-                  className="w-full h-full min-h-[420px] rounded-lg border-0 bg-slate-900"
+                  className="w-full h-full min-h-[440px] rounded-lg border-0 bg-white"
                   sandbox="allow-same-origin"
                 />
               </div>
