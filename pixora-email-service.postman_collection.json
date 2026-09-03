@@ -1,0 +1,401 @@
+{
+  "info": {
+    "_postman_id": "pixora-email-service-collection-v1",
+    "name": "Pixora Email Service API",
+    "description": "Universal Multi-Provider Fallback Email Microservice for Pixora Studios (Brevo -> Resend -> Hostinger SMTP)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Universal Email Dispatch",
+      "item": [
+        {
+          "name": "Send Email - Appointment Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{clientApiKey}}",
+                "type": "text",
+                "description": "Client API Key or Master Admin Key"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"{{recipientEmail}}\",\n  \"template\": \"appointment-booking\",\n  \"data\": {\n    \"clinicName\": \"Pixora Dental Care\",\n    \"patientName\": \"Alex Morgan\",\n    \"patientPhone\": \"+91 98765 43210\",\n    \"patientEmail\": \"alex.morgan@example.com\",\n    \"preferredDate\": \"2026-09-15\",\n    \"preferredTime\": \"11:30 AM\",\n    \"treatmentRequired\": \"Teeth Whitening & Cleaning\",\n    \"additionalNotes\": \"Patient requested morning appointment.\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/send",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "send"]
+            },
+            "description": "Dispatches an appointment notification email with automated provider fallback."
+          }
+        },
+        {
+          "name": "Send Email - Table Reservation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{clientApiKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"{{recipientEmail}}\",\n  \"template\": \"table-booking\",\n  \"data\": {\n    \"restaurantName\": \"The Urban Bistro & Lounge\",\n    \"guestName\": \"Sarah Jenkins\",\n    \"guestPhone\": \"+91 91234 56789\",\n    \"guestEmail\": \"sarah.j@example.com\",\n    \"reservationDate\": \"2026-09-12\",\n    \"reservationTime\": \"08:00 PM\",\n    \"guestCount\": 4,\n    \"seatingPreference\": \"Rooftop Garden\",\n    \"specialRequests\": \"Window seating for anniversary dinner.\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/send",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "send"]
+            }
+          }
+        },
+        {
+          "name": "Send Email - Website Contact Inquiry",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{clientApiKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"{{recipientEmail}}\",\n  \"template\": \"contact-inquiry\",\n  \"data\": {\n    \"websiteName\": \"Pixora Studios Digital\",\n    \"senderName\": \"Michael Chen\",\n    \"senderEmail\": \"m.chen@venture.io\",\n    \"senderPhone\": \"+1 555-0199\",\n    \"subject\": \"Project Inquiry for Next.js Web App\",\n    \"message\": \"Hello Pixora team, we would like to build a custom customer portal with integrated email fallback service.\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/send",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "send"]
+            }
+          }
+        },
+        {
+          "name": "Send Email - OTP / Verification Code",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{clientApiKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"{{recipientEmail}}\",\n  \"template\": \"otp-verification\",\n  \"data\": {\n    \"appName\": \"Pixora Auth Service\",\n    \"otpCode\": \"729148\",\n    \"expiresInMinutes\": 10,\n    \"userEmail\": \"{{recipientEmail}}\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/send",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "send"]
+            }
+          }
+        },
+        {
+          "name": "Send Email - Custom Raw HTML",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{clientApiKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"to\": \"{{recipientEmail}}\",\n  \"subject\": \"Custom Email from Pixora API\",\n  \"html\": \"<div style=\\\"background:#0f172a;color:#f8fafc;padding:24px;border-radius:12px;font-family:sans-serif;\\\">\\n  <h2 style=\\\"color:#38bdf8;\\\">Hello from Pixora Email Service</h2>\\n  <p>This is a custom HTML email dispatched directly via API.</p>\\n</div>\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/send",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "send"]
+            }
+          }
+        },
+        {
+          "name": "Preview Template Rendering",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-api-key",
+                "value": "{{clientApiKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"appointment-booking\",\n  \"data\": {\n    \"clinicName\": \"Pixora Dental\",\n    \"patientName\": \"Alex Morgan\",\n    \"patientPhone\": \"1234567890\",\n    \"patientEmail\": \"alex@example.com\",\n    \"preferredDate\": \"2026-09-20\",\n    \"preferredTime\": \"02:00 PM\",\n    \"treatmentRequired\": \"Consultation\",\n    \"additionalNotes\": \"First visit\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/templates/preview",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "templates", "preview"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Admin & Dashboard Management",
+      "item": [
+        {
+          "name": "Get System Overview Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-admin-key",
+                "value": "{{masterAdminKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Get Delivery Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-admin-key",
+                "value": "{{masterAdminKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/logs?limit=50",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "logs"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Provider Configurations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-admin-key",
+                "value": "{{masterAdminKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/providers",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "providers"]
+            }
+          }
+        },
+        {
+          "name": "Update Provider Daily Quota / Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-admin-key",
+                "value": "{{masterAdminKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dailyLimit\": 300,\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/providers/provider_brevo",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "providers", "provider_brevo"]
+            }
+          }
+        },
+        {
+          "name": "Reorder Fallback Priority",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-admin-key",
+                "value": "{{masterAdminKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order\": [\"provider_brevo\", \"provider_resend\", \"provider_hostinger\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/providers/reorder",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "providers", "reorder"]
+            }
+          }
+        },
+        {
+          "name": "Test Specific Provider Directly",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-admin-key",
+                "value": "{{masterAdminKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"provider\": \"RESEND\",\n  \"to\": \"{{recipientEmail}}\",\n  \"subject\": \"Postman Test via Resend\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/providers/test",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "providers", "test"]
+            }
+          }
+        },
+        {
+          "name": "List All Templates",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-admin-key",
+                "value": "{{masterAdminKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/templates",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "templates"]
+            }
+          }
+        },
+        {
+          "name": "Create Custom Template",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-admin-key",
+                "value": "{{masterAdminKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Order Confirmation\",\n  \"slug\": \"order-confirmation\",\n  \"description\": \"Invoice and receipt email for e-commerce clients\",\n  \"subjectTemplate\": \"Order #{{orderId}} Confirmed - {{customerName}}\",\n  \"htmlContent\": \"<div style=\\\"background:#0f172a;color:#fff;padding:20px;font-family:sans-serif;\\\"><h2>Order #{{orderId}}</h2><p>Thank you {{customerName}}, your order of {{amount}} is confirmed.</p></div>\",\n  \"variables\": [\"orderId\", \"customerName\", \"amount\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/templates",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "templates"]
+            }
+          }
+        },
+        {
+          "name": "List Client API Keys",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-admin-key",
+                "value": "{{masterAdminKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/keys",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "keys"]
+            }
+          }
+        },
+        {
+          "name": "Create Client API Key",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-admin-key",
+                "value": "{{masterAdminKey}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Dental Clinic Website\",\n  \"description\": \"Used by dental appointment booking widget\",\n  \"allowedOrigins\": [\"http://localhost:3000\", \"https://pixoradental.com\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/admin/keys",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "keys"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        }
+      }
+    }
+  ]
+}
